@@ -1,0 +1,32 @@
+import csv
+import random
+
+# Get individual IDs from preexisting CSV
+ids = []
+with open('../deploy/individual.csv', 'rt') as x:
+  rd = csv.reader(x)
+  next(rd, None)
+  for row in rd:
+	  ids.append(row[0])
+
+# SAMPLE_TYPE DATA
+codes = [u'cp-dna', u'cpl', u'ep-dna', u'ep-pl', u'fibroblast', u'fwb', u'lcl', u'pbmc', u'pl', u'saliva', u'skin-biopsy', u'spit-dna', u'ssc-kit', u'va-blood-draw', u'vb-blood-draw', u'wb-dna']
+
+with open('../deploy/sample_types.csv', 'a') as a:
+  sample_type_csv = csv.writer(a)
+  sample_type_csv.writerow(['code','title'])
+  for i in codes:
+	  sample_type_csv.writerow([i, ''])
+
+
+# SAMPLE DATA
+with open('../deploy/sample.csv', 'a') as b:
+  sample = csv.writer(b)
+  sample.writerow(['sample_type','individual','code','code_text','derived_from'])
+  for i in ids:
+    sample_type = random.choice(codes)
+    individual = i
+    code = random.choice(['1','2'])
+    code_text = ''
+    derived_from = ''
+    sample.writerow([sample_type, individual, code, code_text, derived_from])
